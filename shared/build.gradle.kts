@@ -33,12 +33,14 @@ kotlin {
             implementation(libs.koin.core)
             // Ktor: https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
             implementation(libs.ktor.client.core)
-            // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
-            implementation(libs.ktor.client.content.negotiation)
             // Kotlin Coroutines: https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle
             implementation(libs.kotlinx.coroutines.core)
             // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
             implementation(libs.kotlinx.serialization.json)
+            // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
+            implementation(libs.ktor.client.content.negotiation)
+            // Ktor JSON Plugins: https://ktor.io/docs/client-serialization.html#add_dependencies
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
