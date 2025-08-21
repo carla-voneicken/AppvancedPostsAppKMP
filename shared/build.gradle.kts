@@ -28,6 +28,9 @@ kotlin {
     }
     
     sourceSets {
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+        }
         commonMain.dependencies {
             // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
             implementation(libs.koin.core)
@@ -41,6 +44,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             // Ktor JSON Plugins: https://ktor.io/docs/client-serialization.html#add_dependencies
             implementation(libs.ktor.serialization.kotlinx.json)
+            // KMP ObservableViewModel: https://github.com/rickclephas/KMP-ObservableViewModel
+            api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-13")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
