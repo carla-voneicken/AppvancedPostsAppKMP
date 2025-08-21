@@ -27,9 +27,12 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
             implementation(libs.koin.core)
+            // Ktor: https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
             implementation(libs.ktor.client.core)
+            // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
+            implementation(libs.ktor.client.content.negotiation)
 
         }
         commonTest.dependencies {
