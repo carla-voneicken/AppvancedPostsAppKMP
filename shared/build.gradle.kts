@@ -33,7 +33,8 @@ kotlin {
             implementation(libs.ktor.client.core)
             // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
             implementation(libs.ktor.client.content.negotiation)
-
+            // Kotlin Coroutines: https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle
+            implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
