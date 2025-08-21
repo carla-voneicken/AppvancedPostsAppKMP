@@ -125,6 +125,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C3F400A22E572BBB00AF9699 /* XCRemoteSwiftPackageReference "KMP-ObservableViewModel" */,
+				C3F400A92E57300800AF9699 /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9DA97B22DC1472C00A4DA20 /* Products */;
@@ -391,6 +392,14 @@
 		C3F400A22E572BBB00AF9699 /* XCRemoteSwiftPackageReference "KMP-ObservableViewModel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-ObservableViewModel.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		C3F400A92E57300800AF9699 /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
 			requirement = {
 				branch = master;
 				kind = branch;

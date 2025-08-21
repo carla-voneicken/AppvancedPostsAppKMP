@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.androidLibrary)
     // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
     kotlin("plugin.serialization") version "2.2.0"
+    // KMP NativeCoroutines
+    id("com.google.devtools.ksp") version "2.2.10-2.0.2"
+    id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-46"
 }
 
 kotlin {
@@ -29,7 +32,10 @@ kotlin {
     
     sourceSets {
         all {
+            // KMP ObservableViewModel
             languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            // KMP NativeCoroutines
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
         }
         commonMain.dependencies {
             // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
