@@ -1,10 +1,17 @@
+//
+//  AppvancedPostsApp.swift
+//  AppvancedUebung
+//
+//  Created by Carla von Eicken on 17.07.25.
+//
+
 import SwiftUI
 
 @main
-struct iOSApp: App {
+struct iosApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UsersView()
         }
     }
 }
