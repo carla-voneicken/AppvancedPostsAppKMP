@@ -29,9 +29,16 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             implementation("io.insert-koin:koin-core:4.0.3")
+            implementation(libs.ktor.client.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
