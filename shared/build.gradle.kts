@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
+    kotlin("plugin.serialization") version "2.2.0"
 }
 
 kotlin {
@@ -35,6 +37,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             // Kotlin Coroutines: https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle
             implementation(libs.kotlinx.coroutines.core)
+            // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
+            implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
