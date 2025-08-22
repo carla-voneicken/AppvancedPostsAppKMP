@@ -1,6 +1,5 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.utils
 
-import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
