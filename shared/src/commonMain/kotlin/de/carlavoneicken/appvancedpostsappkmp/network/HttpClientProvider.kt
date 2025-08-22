@@ -1,4 +1,4 @@
-package de.carlavoneicken.appvancedpostsappkmp.business.network
+package de.carlavoneicken.appvancedpostsappkmp.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
