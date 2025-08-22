@@ -40,16 +40,18 @@ kotlin {
         commonMain.dependencies {
             // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
             implementation(libs.koin.core)
+
             // Ktor: https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
-            implementation(libs.ktor.client.core)
+            // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
+            // Ktor JSON Plugins: https://ktor.io/docs/client-serialization.html#add_dependencies
+            // bundles -> installs ktor core, content negotiation, logging and serialization
+            implementation(libs.bundles.ktor)
+
             // Kotlin Coroutines: https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle
             implementation(libs.kotlinx.coroutines.core)
             // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
             implementation(libs.kotlinx.serialization.json)
-            // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
-            implementation(libs.ktor.client.content.negotiation)
-            // Ktor JSON Plugins: https://ktor.io/docs/client-serialization.html#add_dependencies
-            implementation(libs.ktor.serialization.kotlinx.json)
+
             // KMP ObservableViewModel: https://github.com/rickclephas/KMP-ObservableViewModel
             api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-13")
         }

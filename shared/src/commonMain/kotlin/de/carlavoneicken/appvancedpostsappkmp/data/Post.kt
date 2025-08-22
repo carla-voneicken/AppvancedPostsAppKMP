@@ -1,4 +1,4 @@
-package de.carlavoneicken.appvancedpostsappkmp.Data
+package de.carlavoneicken.appvancedpostsappkmp.data
 
 import kotlinx.serialization.Serializable
 
