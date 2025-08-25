@@ -10,6 +10,11 @@ import Shared
 
 @main
 struct iosApp: App {
+    init() {
+        // Swift automatically renamed the function initKoin() to doInitKoin()
+        InitKoinKt.doInitKoin()
+    }
+
     var body: some Scene {
         WindowGroup {
             UsersView()

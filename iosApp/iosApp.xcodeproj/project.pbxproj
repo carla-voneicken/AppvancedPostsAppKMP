@@ -10,18 +10,18 @@
 		C3295A8A2E291CEA00F9D58E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C3295A892E291CEA00F9D58E /* Alamofire */; };
 		C32F328F2E5750FF00DD1265 /* KMPObservableViewModelCore in Frameworks */ = {isa = PBXBuildFile; productRef = C32F328E2E5750FF00DD1265 /* KMPObservableViewModelCore */; };
 		C32F32912E5750FF00DD1265 /* KMPObservableViewModelSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C32F32902E5750FF00DD1265 /* KMPObservableViewModelSwiftUI */; };
-		C37421B02E5C8AB20055EE46 /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37421AF2E5C8AB10055EE46 /* Shared.framework */; };
-		C37421B12E5C8AB20055EE46 /* Shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C37421AF2E5C8AB10055EE46 /* Shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C374221B2E5C94FD0055EE46 /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37421AF2E5C8AB10055EE46 /* Shared.framework */; };
+		C374221C2E5C94FD0055EE46 /* Shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C37421AF2E5C8AB10055EE46 /* Shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C37421B22E5C8AB20055EE46 /* Embed Frameworks */ = {
+		C374221D2E5C94FD0055EE46 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C37421B12E5C8AB20055EE46 /* Shared.framework in Embed Frameworks */,
+				C374221C2E5C94FD0055EE46 /* Shared.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,7 +49,7 @@
 				C32F32912E5750FF00DD1265 /* KMPObservableViewModelSwiftUI in Frameworks */,
 				C32F328F2E5750FF00DD1265 /* KMPObservableViewModelCore in Frameworks */,
 				C3295A8A2E291CEA00F9D58E /* Alamofire in Frameworks */,
-				C37421B02E5C8AB20055EE46 /* Shared.framework in Frameworks */,
+				C374221B2E5C94FD0055EE46 /* Shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +92,7 @@
 				C3295A732E291CB900F9D58E /* Sources */,
 				C3295A742E291CB900F9D58E /* Frameworks */,
 				C3295A752E291CB900F9D58E /* Resources */,
-				C37421B22E5C8AB20055EE46 /* Embed Frameworks */,
+				C374221D2E5C94FD0055EE46 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

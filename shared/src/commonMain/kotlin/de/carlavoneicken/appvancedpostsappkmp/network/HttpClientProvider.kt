@@ -8,7 +8,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-
+// httpClientEngine is implemented differently in Android and iOS -> Android uses Okhttp and iOS uses Darwin
 expect fun httpClientEngine(): HttpClientEngine
 
 val httpClient = HttpClient(httpClientEngine()) {
