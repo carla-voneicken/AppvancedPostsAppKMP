@@ -14,11 +14,4 @@ val appModule = module {
     single<PostsRepository> {
         PostsRepositoryImpl(get())
     }
-
-    // 3. UseCases: inject PostsRepository for the UseCases to use
-    single { CreatePostUsecase(get()) }
-    // single { GetPostsByUserIdUseCase(get()) }
-
-    // 4. ViewModels: inject the registered UseCases
-    // single { PostsViewModel(get(), get()) }
 }
