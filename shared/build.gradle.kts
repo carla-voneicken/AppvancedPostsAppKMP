@@ -40,6 +40,9 @@ kotlin {
         commonMain.dependencies {
             // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
 
             // Ktor: https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
             // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
@@ -60,9 +63,11 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.koin.core)
         }
     }
 }
