@@ -12,7 +12,7 @@ import Shared
 struct iosApp: App {
     init() {
         // Swift automatically renamed the function initKoin() to doInitKoin()
-        InitKoinKt.doInitKoin()
+        KoinHelperKt.doInitKoin()
     }
 
     var body: some Scene {
