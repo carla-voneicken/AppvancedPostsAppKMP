@@ -3,6 +3,8 @@ package de.carlavoneicken.appvancedpostsappkmp.di
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.CreatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepositoryImpl
+import de.carlavoneicken.appvancedpostsappkmp.data.repositories.UsersRepository
+import de.carlavoneicken.appvancedpostsappkmp.data.repositories.UsersRepositoryImpl
 import de.carlavoneicken.appvancedpostsappkmp.network.httpClient
 import org.koin.dsl.module
 
@@ -13,5 +15,8 @@ val appModule = module {
     // 2. Repository: inject the httpClient automatically using get()
     single<PostsRepository> {
         PostsRepositoryImpl(get())
+    }
+    single<UsersRepository> {
+        UsersRepositoryImpl(get())
     }
 }
