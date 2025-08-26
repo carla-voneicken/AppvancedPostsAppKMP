@@ -34,6 +34,13 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
 
             implementation(projects.shared)
+
+            // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
+            implementation(libs.koin.core)
+            implementation(libs.koin.android)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
