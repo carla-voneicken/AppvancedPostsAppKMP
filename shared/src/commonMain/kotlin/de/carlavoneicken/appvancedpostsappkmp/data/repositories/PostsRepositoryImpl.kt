@@ -1,7 +1,7 @@
 package de.carlavoneicken.appvancedpostsappkmp.data.repositories
 
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkError
-import de.carlavoneicken.appvancedpostsappkmp.business.utils.Result
+import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.safeCall
 import de.carlavoneicken.appvancedpostsappkmp.data.Post
 import io.ktor.client.HttpClient
@@ -17,7 +17,7 @@ import io.ktor.http.contentType
 class PostsRepositoryImpl(private val httpClient: HttpClient): PostsRepository {
     private val baseUrl = "https://jsonplaceholder.typicode.com"
 
-    override suspend fun getPostsByUserId(userId: Int): Result<List<Post>, NetworkError> = safeCall(
+    override suspend fun getPostsByUserId(userId: Int): NetworkResult<List<Post>, NetworkError> = safeCall(
         // block: the actual HTTP request or operation that could fail
         block = {
             httpClient.get("$baseUrl/posts") {
@@ -28,14 +28,14 @@ class PostsRepositoryImpl(private val httpClient: HttpClient): PostsRepository {
         mapper = { it.body() }
     )
 
-    override suspend fun getPostById(id: Int): Result<Post, NetworkError> = safeCall(
+    override suspend fun getPostById(id: Int): NetworkResult<Post, NetworkError> = safeCall(
         block = {
             httpClient.get("$baseUrl/posts/$id")
         },
         mapper = { it.body() }
     )
 
-    override suspend fun createPost(post: Post): Result<Post, NetworkError> = safeCall(
+    override suspend fun createPost(post: Post): NetworkResult<Post, NetworkError> = safeCall(
         block = {
             httpClient.post("$baseUrl/posts") {
                 contentType(ContentType.Application.Json)
@@ -45,7 +45,7 @@ class PostsRepositoryImpl(private val httpClient: HttpClient): PostsRepository {
         mapper = { it.body() }
     )
 
-    override suspend fun updatePost(post: Post): Result<Post, NetworkError> = safeCall(
+    override suspend fun updatePost(post: Post): NetworkResult<Post, NetworkError> = safeCall(
         block = {
             httpClient.put("$baseUrl/posts/${post.id}") {
                 contentType(ContentType.Application.Json)
