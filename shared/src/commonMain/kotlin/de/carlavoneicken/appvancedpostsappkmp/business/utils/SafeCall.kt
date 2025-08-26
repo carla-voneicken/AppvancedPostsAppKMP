@@ -13,7 +13,7 @@ suspend fun <T> safeCall(
     // mapper: transforms the raw result of the block into the desired output type (e.g. List<Post>)
     // it's generic so safeCall doesn't need to know in advance what the final type is, we supply it with the mapper
     mapper: suspend (HttpResponse) -> T
-): Result<T, NetworkError> {
+): NetworkResult<T, NetworkError> {
     return try {
         val response = block()  // run the HTTP request
 
@@ -22,20 +22,20 @@ suspend fun <T> safeCall(
         when (response.status.value) {
             in 200..299 -> {
                 val body: T = mapper(response)
-                Result.Success(body)
+                NetworkResult.Success(body)
             }
-            401 -> Result.Failure(NetworkError.UNAUTHORIZED)
-            408 -> Result.Failure(NetworkError.REQUEST_TIMEOUT)
-            409 -> Result.Failure(NetworkError.CONFLICT)
-            413 -> Result.Failure(NetworkError.PAYLOAD_TOO_LARGE)
-            in 500..599 -> Result.Failure(NetworkError.SERVER_ERROR)
-            else -> Result.Failure(NetworkError.UNKNOWN)
+            401 -> NetworkResult.Failure(NetworkError.UNAUTHORIZED)
+            408 -> NetworkResult.Failure(NetworkError.REQUEST_TIMEOUT)
+            409 -> NetworkResult.Failure(NetworkError.CONFLICT)
+            413 -> NetworkResult.Failure(NetworkError.PAYLOAD_TOO_LARGE)
+            in 500..599 -> NetworkResult.Failure(NetworkError.SERVER_ERROR)
+            else -> NetworkResult.Failure(NetworkError.UNKNOWN)
         }
     } catch (e: UnresolvedAddressException) {
-        Result.Failure(NetworkError.NO_INTERNET)
+        NetworkResult.Failure(NetworkError.NO_INTERNET)
     } catch (e: SerializationException) {
-        Result.Failure(NetworkError.SERIALIZATION)
+        NetworkResult.Failure(NetworkError.SERIALIZATION)
     } catch (e: Exception) {
-        Result.Failure(NetworkError.UNKNOWN)
+        NetworkResult.Failure(NetworkError.UNKNOWN)
     }
 }
