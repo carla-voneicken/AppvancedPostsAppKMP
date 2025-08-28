@@ -3,7 +3,6 @@ package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByUserIdUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkError
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
 import de.carlavoneicken.appvancedpostsappkmp.data.Post
@@ -18,7 +17,7 @@ class PostsViewModel(
     private val userId: Int
 ): ViewModel(), KoinComponent {
     // inject needed Usecase
-    private val getPostsByUserIdUseCase: GetPostByUserIdUsecase by inject()
+    private val getPostsByUserIdUsecase: GetPostByUserIdUsecase by inject()
 
     // UI State data class
     data class UiState(
@@ -48,27 +47,24 @@ class PostsViewModel(
         loadPosts()
     }
 
+    private fun updateState(update: UiState.() -> UiState) {
+        _uiState.value = _uiState.value.update()
+    }
+
     fun loadPosts() {
         viewModelScope.launch {
             // copy() creates a new instance of the data class with some properties changed
             // copy(isLoading = true) creates a new instance where the isLoading property is changed, but not the others
-            _uiState.value = _uiState.value.copy(isLoading = true)
+            updateState { copy(isLoading = true, errorMessage = null) }
 
-            when (val result = getPostsByUserIdUseCase(userId)) {
+            when (val result = getPostsByUserIdUsecase(userId)) {
                 // when httpRequest was successful -> save the data in the uiState
-                is NetworkResult.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        posts = result.data,
-                        isLoading = false,
-                        errorMessage = null
-                    )
+                is NetworkResult.Success -> updateState {
+                    copy(posts = result.data, isLoading = false)
                 }
-                // when httpRequest failed -> save NetworkError in errorMessage
-                is NetworkResult.Failure -> {
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        errorMessage = mapNetworkErrorToMessage(result.error)
-                    )
+                // when httpRequest was not successful -> display errorMessage
+                is NetworkResult.Failure -> updateState {
+                    copy(errorMessage = mapNetworkErrorToMessage(result.error), isLoading = false)
                 }
             }
         }
