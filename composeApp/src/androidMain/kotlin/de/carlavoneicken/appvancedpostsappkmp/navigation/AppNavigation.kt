@@ -46,6 +46,7 @@ fun AppNavigation() {
             )
         }
 
+        // 3. Post Detail View
         composable(
             route = "post_detail/{isNew}/{userId}/{postId}",
             arguments = listOf(
