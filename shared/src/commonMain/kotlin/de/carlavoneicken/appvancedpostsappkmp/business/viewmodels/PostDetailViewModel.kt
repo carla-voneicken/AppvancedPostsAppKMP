@@ -24,9 +24,9 @@ class PostDetailViewModel(
     private val updatePostUsecase: UpdatePostUsecase by inject()
 
     data class UiState(
-        val post: Post? = null,
         val postId: Int? = null,
         val userId: Int,
+        val post: Post? = null,
         val title: String = "",
         val body: String = "",
         val errorMessage: String? = null,
@@ -60,6 +60,14 @@ class PostDetailViewModel(
                 }
             }
         }
+    }
+
+    fun updateTitle(newTitle: String) {
+        _uiState.value = _uiState.value.copy(title = newTitle)
+    }
+
+    fun updateBody(newBody: String) {
+        _uiState.value = _uiState.value.copy(body = newBody)
     }
 
     fun savePost() {
@@ -99,5 +107,12 @@ class PostDetailViewModel(
                 }
             }
         }
+    }
+
+    fun dismissError() {
+        _uiState.value = _uiState.value.copy(
+            errorMessage = null,
+            showError = false
+        )
     }
 }
