@@ -1,26 +1,31 @@
 package de.carlavoneicken.appvancedpostsappkmp.presentation
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostsViewModel
-import de.carlavoneicken.appvancedpostsappkmp.navigation.AppNavigation
+import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.UsersViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostsScreen(
-    viewModel: PostsViewModel = koinViewModel(),
+fun UsersScreen(
+    viewModel: UsersViewModel = koinViewModel(),
     navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -28,16 +33,7 @@ fun PostsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Posts") },
-                actions = {
-                    TextButton(
-                        onClick = {
-                            navController.navigate("post_detail/true/${uiState.userId}/0")
-                        }
-                    ) {
-                        Text("Neuer Post")
-                    }
-                }
+                title = { Text("Users") }
             )
         }
     ) { paddingValues ->
@@ -55,16 +51,16 @@ fun PostsScreen(
                         color = Color.Black
                     )
                 }
-                // when the uiState is no longer loading, display the post
+                // when the uiState is no longer loading, display the users
                 else -> {
                     Column {
                         LazyColumn(
                             modifier = Modifier.weight(1f)
                         ) {
-                            items(uiState.posts) { post ->
-                                PostItem(
-                                    post = post,
-                                    onClick = { navController.navigate("post_detail/false/${post.userId}/${post.id}") }
+                            items(uiState.users) { user ->
+                                UserItem(
+                                    user = user,
+                                    onClick = { navController.navigate("posts/${user.id}") }
                                 )
                             }
                         }

@@ -10,15 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import de.carlavoneicken.appvancedpostsappkmp.data.Post
+import de.carlavoneicken.appvancedpostsappkmp.data.User
 
 @Composable
-fun PostItem(
-    post: Post,
+fun UserItem(
+    user: User,
     onClick: () -> Unit
 ) {
     Column(
@@ -28,24 +27,21 @@ fun PostItem(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text = post.title,
-            fontWeight = FontWeight.Bold,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            text = "Username",
+            fontSize = 10.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = post.body,
-            fontSize = 14.sp
+            text = user.username
         )
     }
 }
 
 @Preview
 @Composable
-fun PostItemPreview() {
-    PostItem(
-        post = Post(1, 42, "Hello", "Body text"),
+fun UserItemPreview() {
+    UserItem(
+        user = User(id = 1, username = "Joodie"),
         onClick = {} // do nothing for preview
     )
 }
