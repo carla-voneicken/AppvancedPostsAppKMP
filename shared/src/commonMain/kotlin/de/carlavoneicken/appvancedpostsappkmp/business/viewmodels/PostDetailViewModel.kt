@@ -3,6 +3,7 @@ package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.CreatePostUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
@@ -15,43 +16,51 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostDetailViewModel(
-    post: Post?, userId: Int
+    postId: Int?, userId: Int
 ): ViewModel(), KoinComponent {
     // inject needed Usecases
-    private val createPostUseCase: CreatePostUsecase by inject()
-    private val updatePostUseCase: UpdatePostUsecase by inject()
+    private val getPostByIdUsecase: GetPostByIdUsecase by inject()
+    private val createPostUsecase: CreatePostUsecase by inject()
+    private val updatePostUsecase: UpdatePostUsecase by inject()
 
     data class UiState(
-        val post: Post?,
+        val post: Post? = null,
+        val postId: Int? = null,
         val userId: Int,
-        val title: String,
-        val body: String,
+        val title: String = "",
+        val body: String = "",
         val errorMessage: String? = null,
         val showError: Boolean = false,
         val isSaved: Boolean = false
     )
 
     // Initiate the UiState
-    private val _uiState = MutableStateFlow(
-        if (post != null) {
-            // Editing an existing post
-            UiState(
-                post = post,
-                userId = userId,
-                title = post.title,
-                body = post.body
-            )
-        } else {
-            // Creating a new post
-            UiState(
-                post = null,
-                userId = userId,
-                title = "",
-                body = ""
-            )
-        }
-    )
+    private val _uiState = MutableStateFlow(UiState(userId = userId))
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+    init {
+        postId?.let { id ->
+            viewModelScope.launch {
+                when (val result = getPostByIdUsecase(id)) {
+                    is NetworkResult.Success ->  {
+                        val post = result.data
+                        _uiState.value = UiState(
+                            post = post,
+                            userId = userId,
+                            title = post.title,
+                            body = post.body
+                        )
+                    }
+                    is NetworkResult.Failure -> {
+                        _uiState.value = _uiState.value.copy(
+                            errorMessage = mapNetworkErrorToMessage(result.error),
+                            showError = true
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     fun savePost() {
         viewModelScope.launch {
@@ -72,9 +81,9 @@ class PostDetailViewModel(
 
             // update or create post
             val result = if (currentState.post != null) {
-                updatePostUseCase(newPost)
+                updatePostUsecase(newPost)
             } else {
-                createPostUseCase(newPost)
+                createPostUsecase(newPost)
             }
 
             // check if the network request was successful, if not display errorMessage
