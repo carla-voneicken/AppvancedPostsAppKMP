@@ -8,7 +8,6 @@ import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecas
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostDetailViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostsViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.UsersViewModel
-import de.carlavoneicken.appvancedpostsappkmp.data.Post
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepositoryImpl
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.UsersRepository
