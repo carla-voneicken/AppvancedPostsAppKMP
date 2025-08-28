@@ -55,7 +55,9 @@ fun UsersScreen(
                 else -> {
                     Column {
                         LazyColumn(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 15.dp)
                         ) {
                             items(uiState.users) { user ->
                                 UserItem(
