@@ -1,5 +1,6 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
@@ -40,6 +41,7 @@ class PostsViewModel(
     public: UI components can observe it
      */
     private val _uiState = MutableStateFlow(viewModelScope, UiState(userId = userId))
+    @NativeCoroutinesState
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {

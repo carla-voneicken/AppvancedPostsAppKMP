@@ -1,5 +1,6 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetUserUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
@@ -23,6 +24,7 @@ class UsersViewModel(): ViewModel(), KoinComponent {
     )
 
     private val _uiState = MutableStateFlow(viewModelScope, UiState())
+    @NativeCoroutinesState
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
