@@ -6,54 +6,92 @@
 //
 
 import SwiftUI
+import KMPObservableViewModelSwiftUI
+import Shared
 
 struct PostsView: View {
-    @StateObject var viewmodel: PostsViewModel
-    @State private var isShowingNewPost = false
+    @StateViewModel var viewmodel: PostsViewModel
+    
+    private var identifiablePosts: [IdentifiablePost] {
+        viewmodel.uiState.posts.map {
+            IdentifiablePost(
+                id: Int($0.id),
+                userId: Int($0.userId),
+                title: $0.title,
+                body: $0.body
+            )
+        }
+    }
     
     var body: some View {
-        if viewmodel.isLoading {
+        if viewmodel.uiState.isLoading {
             ProgressView()
                 .scaleEffect(2, anchor: .center)
                 .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             VStack {
-                List(viewmodel.posts) { post in
-                    NavigationLink(destination: PostDetailView(viewmodel: PostDetailViewModel(post: post, userId: viewmodel.userId))){
-                        VStack(alignment: .leading) {
-                            Text(post.title)
-                                .font(.headline)
-                            Text(post.body)
-                                .font(.system(size: 14))
-                        }
+                List(identifiablePosts) { post in
+                    NavigationLink(
+                        destination: createPostDetailView(for: post)
+                    ) {
+                        PostRow(post: post)
                     }
-                }
-                if viewmodel.errorMessage != nil {
-                    Text(viewmodel.errorMessage!)
-                        .foregroundColor(.red)
                 }
             }
             .navigationTitle("Posts")
-            // if isShowingNewPost is true (when the New Post button is pressed), go to the PostDetailView
-            .navigationDestination(isPresented: $isShowingNewPost) {
-                PostDetailView(viewmodel: PostDetailViewModel(post: nil, userId: viewmodel.userId))
-            }
-
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Neuer Post") {
-                        isShowingNewPost = true
+                    NavigationLink(
+                        destination: createNewPostView()
+                    ) {
+                        Text("Neuer Post")
                     }
                 }
             }
         }
+    
+    // Display errorMessage
+    if let errorMessage = viewmodel.uiState.errorMessage {
+        Text(errorMessage)
+            .foregroundColor(.red)
+    }
+}
+    
+    
+    // Helper Methods
+    @ViewBuilder
+    private func createPostDetailView(for post: IdentifiablePost) -> some View {
+        PostDetailView(
+            viewmodel: PostDetailViewModel(
+                postId: KotlinInt(value: Int32(post.id)),  // Convert Swift Int to KotlinInt
+                userId: Int32(post.userId)
+            )
+        )
+    }
+    
+    @ViewBuilder
+    private func createNewPostView() -> some View {
+        PostDetailView(
+            viewmodel: PostDetailViewModel(
+                postId: nil,
+                userId: Int32(viewmodel.uiState.userId)
+            )
+        )
     }
 }
 
 
-#Preview {
-    NavigationStack {
-        PostsView(viewmodel: PostsViewModel(userId: 1))
+struct PostRow: View {
+    let post: IdentifiablePost
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(post.title)
+                .font(.headline)
+            Text(post.body)
+                .font(.system(size: 14))
+        }
+        .padding(.vertical, 4)
     }
 }
