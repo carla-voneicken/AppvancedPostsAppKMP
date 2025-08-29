@@ -1,5 +1,6 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
@@ -15,9 +16,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostDetailViewModel(
-    postId: Int?, userId: Int
+    private val postId: Int?, private val userId: Int
 ): ViewModel(), KoinComponent {
-    // inject needed Usecases
     private val getPostByIdUsecase: GetPostByIdUsecase by inject()
     private val createPostUsecase: CreatePostUsecase by inject()
     private val updatePostUsecase: UpdatePostUsecase by inject()
@@ -35,6 +35,7 @@ class PostDetailViewModel(
 
     // Initiate the UiState
     private val _uiState = MutableStateFlow(viewModelScope, UiState(userId = userId))
+    @NativeCoroutinesState
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
@@ -69,7 +70,7 @@ class PostDetailViewModel(
         _uiState.value = _uiState.value.copy(body = newBody)
     }
 
-    fun savePost() {
+    suspend fun savePost() {
         viewModelScope.launch {
             val currentState = _uiState.value
 
