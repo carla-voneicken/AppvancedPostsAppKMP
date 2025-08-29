@@ -1,17 +1,16 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
+import com.rickclephas.kmp.observableviewmodel.ViewModel
+import com.rickclephas.kmp.observableviewmodel.launch
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.CreatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
 import de.carlavoneicken.appvancedpostsappkmp.data.Post
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -35,7 +34,7 @@ class PostDetailViewModel(
     )
 
     // Initiate the UiState
-    private val _uiState = MutableStateFlow(UiState(userId = userId))
+    private val _uiState = MutableStateFlow(viewModelScope, UiState(userId = userId))
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {

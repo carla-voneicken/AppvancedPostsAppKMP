@@ -1,15 +1,14 @@
 package de.carlavoneicken.appvancedpostsappkmp.business.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.rickclephas.kmp.observableviewmodel.ViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetUserUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
 import de.carlavoneicken.appvancedpostsappkmp.data.User
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
+import com.rickclephas.kmp.observableviewmodel.launch
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -23,7 +22,7 @@ class UsersViewModel(): ViewModel(), KoinComponent {
         val errorMessage: String? = null
     )
 
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow(viewModelScope, UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
