@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import KMPObservableViewModelSwiftUI
+import Shared
 
 struct PostDetailView: View {
-    @StateObject var viewmodel: PostDetailViewModel
+    @StateViewModel var viewmodel: PostDetailViewModel
     @State private var showSuccessText = false
+    @State private var showErrorDialog = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -21,8 +24,13 @@ struct PostDetailView: View {
                 .foregroundStyle(.red)
                 Spacer()
                 Button("Speichern") {
+                    // savePost() already does error handling so this function should not really throw any errors, but in case something outside the ViewModel goes wrong we use a do-catch-block here
                     Task {
-                        await viewmodel.savePost()
+                        do {
+                            try await viewmodel.savePost()
+                        } catch {
+                            print("Unexpected error: \(error)")
+                        }
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -30,7 +38,11 @@ struct PostDetailView: View {
             Text("Titel")
                 .font(.headline)
             
-            TextField("Titel eingeben", text: $viewmodel.title)
+            TextField("Titel eingeben",
+                      text: .init(
+                        get: { viewmodel.uiState.title },
+                        set: { viewmodel.updateTitle(newTitle: $0) }
+                      ))
                 .padding(10)
                 .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.5)))
                 .font(.body)
@@ -38,19 +50,15 @@ struct PostDetailView: View {
             Text("Inhalt")
                 .font(.headline)
             
-            TextEditor(text: $viewmodel.body)
+            TextEditor(text: .init(
+                get: { viewmodel.uiState.body },
+                set: { viewmodel.updateBody(newBody: $0) }
+            ))
                 .padding(10)
                 .frame(height: 200)
                 .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.5)))
             
             Spacer()
-            // display error message
-//            if viewmodel.errorMessage != nil {
-//                Text(viewmodel.errorMessage!)
-//                    .foregroundColor(.red)
-//                    .frame(maxWidth: .infinity, alignment: .center)
-//            }
-            // display success message
             if showSuccessText {
                 Text("🥳 Post gespeichert 🥳")
                     .font(.system(size: 20, weight: .bold))
@@ -60,32 +68,21 @@ struct PostDetailView: View {
         }
         .padding()
         .navigationBarBackButtonHidden(true)
-        .onChange(of: viewmodel.isSaved) { saved in
-            if saved {
+        .onChange(of: viewmodel.uiState.isSaved) {
+            if viewmodel.uiState.isSaved {
                 showSuccessText = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     dismiss()
                 }
             }
         }
-        .alert("Fehler", isPresented: $viewmodel.showError) {
-            Button("OK", role: .cancel) {}
+        .onChange(of: viewmodel.uiState.showError) {
+            showErrorDialog = viewmodel.uiState.showError
+        }
+        .alert("Fehler", isPresented: $showErrorDialog) {
+            Button("OK") { viewmodel.dismissError() }
         } message: {
-            Text(viewmodel.errorMessage ?? "Ein unbekannter Fehler ist aufgetreten")
+            Text(viewmodel.uiState.errorMessage ?? "Ein unbekannter Fehler ist aufgetreten")
         }
     }
-}
-
-
-#Preview {
-    PostDetailView(
-        viewmodel: PostDetailViewModel(
-            post: Post(
-                userId: 1,
-                id: 2,
-                title: "qui est esse",
-                body: "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
-            ), userId: 1
-        )
-    )
 }

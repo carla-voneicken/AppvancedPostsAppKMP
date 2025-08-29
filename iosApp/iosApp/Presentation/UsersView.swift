@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import KMPObservableViewModelSwiftUI
+import Shared
 
 struct UsersView: View {
-    @StateObject var viewmodel = UsersViewModel()
+    @StateViewModel var viewmodel = UsersViewModel()
     
     var body: some View {
-        if viewmodel.isLoading {
+        if viewmodel.uiState.isLoading {
             ProgressView()
                 .scaleEffect(2, anchor: .center)
                 .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
@@ -19,16 +21,22 @@ struct UsersView: View {
         } else {
             NavigationStack {
                 VStack {
-                    List(viewmodel.users) { user in
-                        NavigationLink(destination: PostsView(viewmodel: PostsViewModel(userId: user.id))){
+                    List(viewmodel.uiState.users.map {
+                        IdentifiableUser(id: Int($0.id), username: $0.username) }
+                    ) { user in
+                        NavigationLink(destination: PostsView(
+                            viewmodel: PostsViewModel(
+                                userId: Int32(user.id)
+                            )
+                        )){
                             VStack(alignment: .leading) {
                                 Text("Username")
                                     .font(.caption)
                                 Text(user.username)
                             }
                         }
-                        if viewmodel.errorMessage != nil {
-                            Text(viewmodel.errorMessage!)
+                        if viewmodel.uiState.errorMessage != nil {
+                            Text(viewmodel.uiState.errorMessage!)
                                 .foregroundColor(.red)
                         }
                     }
@@ -37,8 +45,4 @@ struct UsersView: View {
             }
         }
     }
-}
-
-#Preview {
-    UsersView()
 }
