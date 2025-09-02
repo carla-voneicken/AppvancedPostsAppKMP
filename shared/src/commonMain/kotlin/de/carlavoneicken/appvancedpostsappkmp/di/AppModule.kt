@@ -19,6 +19,8 @@ val appModule = module {
     // 1. HttpClient: make a singleton platform-specific HttpClient instance available in Koin
     single { httpClient }
 
+
+
     // 2. Repository: inject the httpClient automatically using get()
     single<PostsRepository> {
         PostsRepositoryImpl(get())
