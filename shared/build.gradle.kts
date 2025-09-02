@@ -7,8 +7,10 @@ plugins {
     // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
     kotlin("plugin.serialization") version "2.2.0"
     // KMP NativeCoroutines
-    id("com.google.devtools.ksp") version "2.2.10-2.0.2"
+    //id("com.google.devtools.ksp") version "2.2.10-2.0.2"
     id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-46"
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -54,6 +56,9 @@ kotlin {
 
             // KMP ObservableViewModel: https://github.com/rickclephas/KMP-ObservableViewModel
             api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-13")
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -79,4 +84,15 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
