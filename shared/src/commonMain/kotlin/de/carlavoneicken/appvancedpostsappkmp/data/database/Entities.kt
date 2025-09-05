@@ -17,11 +17,10 @@ class Converters {
 
 @Entity(tableName = "users")
 data class UserEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: Long,
     val username: String
 )
 
-@OptIn(ExperimentalTime::class)
 @Entity(
     tableName = "posts",
     indices = [
@@ -32,11 +31,14 @@ data class UserEntity(
     ]
 )
 data class PostEntity(
-    @PrimaryKey(autoGenerate = true) val localId: Int = 0, // local primary key
-    val remoteId: Int?, // API id (null until server assigns)
-    val userRemoteId: Int,
+    @PrimaryKey(autoGenerate = true) val localId: Long = 0, // local primary key
+    val remoteId: Long?, // API id (null until server assigns)
+    val userRemoteId: Long,
     val title: String,
     val body: String,
     val syncState: SyncState = SyncState.SYNCED,
-    val updatedAt: Long = Clock.System.now().toEpochMilliseconds()
+    val updatedAt: Long
 )
+
+// set updatedAt when constructing the PostEntity:     updatedAt = Clock.System.now().toEpochMilliseconds()
+// do the opt in like this at the very top of the file: @file:OptIn(ExperimentalTime::class)

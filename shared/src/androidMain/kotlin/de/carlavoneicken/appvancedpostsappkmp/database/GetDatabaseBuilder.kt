@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import de.carlavoneicken.appvancedpostsappkmp.data.database.AppDatabase
 
 // Code from Android Docs: https://developer.android.com/kotlin/multiplatform/room
-fun androidDatabaseBuilder(context: Context): RoomDatabase.Builder<AppDatabase> {
+fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<AppDatabase> {
     val appContext = context.applicationContext
     val dbFile = appContext.getDatabasePath("app.db")
     return Room.databaseBuilder<AppDatabase>(

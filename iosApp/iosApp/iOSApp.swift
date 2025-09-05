@@ -11,8 +11,9 @@ import Shared
 @main
 struct iosApp: App {
     init() {
+        let builder = GetDatabaseBuilderKt.getDatabaseBuilder()
         // Swift automatically renamed the function initKoin() to doInitKoin()
-        KoinHelperKt.doInitKoin()
+        KoinHelperKt.doInitKoin(builder: builder)
     }
 
     var body: some Scene {

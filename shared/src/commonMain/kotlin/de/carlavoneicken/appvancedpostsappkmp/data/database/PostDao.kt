@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 @Dao
 interface PostDao {
     // UI-facing queries (hide locally-deleted items)
@@ -18,24 +17,24 @@ interface PostDao {
         WHERE userRemoteId = :userId AND syncState != 'DELETING' 
         ORDER BY updatedAt DESC
     """)
-    fun observeByUser(userId: Int): Flow<List<PostEntity>>
+    fun observeByUser(userId: Long): Flow<List<PostEntity>>
 
     @Query("SELECT * FROM posts WHERE localId = :localId")
-    fun observeByLocalId(localId: Int): Flow<PostEntity?>
+    fun observeByLocalId(localId: Long): Flow<PostEntity?>
 
     // Mutations
     @Insert
-    suspend fun insert(entity: PostEntity): Int
+    suspend fun insert(entity: PostEntity): Long
 
     @Update
     suspend fun update(entity: PostEntity)
 
     @Query("DELETE FROM posts WHERE localId = :localId")
-    suspend fun hardDelete(localId: Int)
+    suspend fun hardDelete(localId: Long)
 
     // Convenience “state flips”
     @Query("UPDATE posts SET syncState = :state, updatedAt = :ts WHERE localId = :id")
-    suspend fun markState(id: Int, state: SyncState, ts: Long = Clock.System.now().toEpochMilliseconds())
+    suspend fun markState(id: Long, state: SyncState, ts: Long)
 
     // Sync queues
     @Query("SELECT * FROM posts WHERE syncState IN ('CREATING','UPDATING','DELETING') ORDER BY updatedAt ASC")
@@ -48,5 +47,5 @@ interface PostDao {
 
     // Resolve server ids after create
     @Query("UPDATE posts SET remoteId = :remoteId, syncState = 'SYNCED', updatedAt = :ts WHERE localId = :localId")
-    suspend fun bindRemoteId(localId: Int, remoteId: Int, ts: Long = Clock.System.now().toEpochMilliseconds())
+    suspend fun bindRemoteId(localId: Long, remoteId: Long, ts: Long)
 }

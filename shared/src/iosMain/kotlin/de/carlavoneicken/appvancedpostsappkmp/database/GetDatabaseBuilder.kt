@@ -8,7 +8,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
 // Code from Android Docs: https://developer.android.com/kotlin/multiplatform/room
-fun iosDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
+fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     val dbFilePath = documentDirectory() + "/app.db"
     return Room.databaseBuilder<AppDatabase>(
         name = dbFilePath

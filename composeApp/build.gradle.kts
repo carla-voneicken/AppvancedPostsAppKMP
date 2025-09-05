@@ -40,6 +40,8 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
+            implementation(libs.room.runtime)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

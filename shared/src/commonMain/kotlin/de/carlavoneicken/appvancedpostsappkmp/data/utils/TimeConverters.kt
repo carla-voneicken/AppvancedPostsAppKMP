@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.carlavoneicken.appvancedpostsappkmp.data.utils
 
 import androidx.room.TypeConverter
@@ -8,7 +10,6 @@ import kotlin.time.Instant
 
 
 // Room can only store primitive type ins SQLite (e.g. Integer, Text, Real, Blob) -> Instants need to be converted
-@OptIn(ExperimentalTime::class)
 class TimeConverters {
     // converts a nullable Instant to a Long? representing millisecond since Unix epoch
     // value?.toEpochMilliseconds -> if value is null the whole expression is null, otherwise it calls
