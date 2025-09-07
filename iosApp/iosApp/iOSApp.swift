@@ -5,6 +5,7 @@
 //  Created by Carla von Eicken on 17.07.25.
 //
 
+
 import SwiftUI
 import Shared
 
@@ -12,7 +13,7 @@ import Shared
 struct iosApp: App {
     init() {
         // Swift automatically renamed the function initKoin() to doInitKoin()
-        KoinHelperKt.doInitKoin()
+        KoinHelperKt.doInitKoinIos()
     }
 
     var body: some Scene {
