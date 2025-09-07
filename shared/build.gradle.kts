@@ -7,7 +7,6 @@ plugins {
     // Kotlin Serialization: https://github.com/Kotlin/kotlinx.serialization?tab=readme-ov-file#gradle
     kotlin("plugin.serialization") version "2.2.10"
     // KMP NativeCoroutines
-    //id("com.google.devtools.ksp") version "2.2.10-2.0.2"
     id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-46"
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
@@ -42,6 +41,8 @@ kotlin {
         commonMain.dependencies {
             // Koin: https://insert-koin.io/docs/setup/koin/#kotlin-multiplatform
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             // Ktor: https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
             // Ktor Content Negotiation: https://ktor.io/docs/client-serialization.html#add_dependencies
@@ -58,6 +59,7 @@ kotlin {
             // KMP ObservableViewModel: https://github.com/rickclephas/KMP-ObservableViewModel
             api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-13")
 
+            // Room: https://developer.android.com/kotlin/multiplatform/room
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
         }

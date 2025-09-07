@@ -8,16 +8,22 @@ import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecas
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostDetailViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostsViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.UsersViewModel
+import de.carlavoneicken.appvancedpostsappkmp.data.database.AppDatabase
+import de.carlavoneicken.appvancedpostsappkmp.data.database.PostDao
+import de.carlavoneicken.appvancedpostsappkmp.data.database.UserDao
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepositoryImpl
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.UsersRepository
 import de.carlavoneicken.appvancedpostsappkmp.data.repositories.UsersRepositoryImpl
 import de.carlavoneicken.appvancedpostsappkmp.network.httpClient
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
-val appModule = module {
+val coreModule: Module = module {
     // 1. HttpClient: make a singleton platform-specific HttpClient instance available in Koin
     single { httpClient }
+    single<UserDao> { get<AppDatabase>().getUserDao() }
+    single<PostDao> { get<AppDatabase>().getPostDao() }
 
     // 2. Repository: inject the httpClient automatically using get()
     single<PostsRepository> {
