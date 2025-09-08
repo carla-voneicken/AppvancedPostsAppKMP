@@ -36,7 +36,7 @@ fun AppNavigation() {
             route = "posts/{userId}",
             arguments = listOf(navArgument("userId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getInt("userId") ?: 0
+            val userId = backStackEntry.arguments?.getLong("userId") ?: 0
             val viewModel: PostsViewModel = viewModel { PostsViewModel(userId) }
 
             PostsScreen(
@@ -55,8 +55,8 @@ fun AppNavigation() {
             )
         ) { backStackEntry ->
             val isNew = backStackEntry.arguments?.getBoolean("isNew") ?: false
-            val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            val postId = backStackEntry.arguments?.getInt("postId") ?: 0
+            val userId = backStackEntry.arguments?.getLong("userId") ?: 0
+            val postId = backStackEntry.arguments?.getLong("postId") ?: 0
 
             // takeIf{!isNew} -> if it's a new post, pass null instead of 0
             val viewModel: PostDetailViewModel = viewModel { PostDetailViewModel(postId.takeIf { !isNew }, userId) }

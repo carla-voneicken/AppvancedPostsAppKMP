@@ -5,9 +5,6 @@ import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUseca
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByUserIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetUserUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostDetailViewModel
-import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostsViewModel
-import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.UsersViewModel
 import de.carlavoneicken.appvancedpostsappkmp.data.database.AppDatabase
 import de.carlavoneicken.appvancedpostsappkmp.data.database.PostDao
 import de.carlavoneicken.appvancedpostsappkmp.data.database.UserDao

@@ -7,7 +7,7 @@ import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 
 class GetPostByUserIdUsecase(private val postsRepository: PostsRepository) {
 
-    suspend operator fun invoke(userId: Int): NetworkResult<List<Post>, NetworkError> {
+    suspend operator fun invoke(userId: Long): NetworkResult<List<Post>, NetworkError> {
         return postsRepository.getPostsByUserId(userId)
     }
 
