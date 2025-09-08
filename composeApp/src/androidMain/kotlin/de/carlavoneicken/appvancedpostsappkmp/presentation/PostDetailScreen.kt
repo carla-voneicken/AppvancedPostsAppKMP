@@ -48,7 +48,7 @@ fun PostDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Show success messsage when post is saved, then navigate back to the previous screen
+    // Show success message when post is saved, then navigate back to the previous screen
     var showSuccessText by remember { mutableStateOf(false) }
     LaunchedEffect(uiState.isSaved) {
         if (uiState.isSaved) {

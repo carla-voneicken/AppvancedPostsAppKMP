@@ -7,7 +7,7 @@ import com.rickclephas.kmp.observableviewmodel.launch
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByUserIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
-import de.carlavoneicken.appvancedpostsappkmp.data.Post
+import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.koin.core.component.KoinComponent
