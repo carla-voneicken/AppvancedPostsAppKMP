@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import de.carlavoneicken.appvancedpostsappkmp.data.Post
+import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
 
 @Composable
 fun PostItem(

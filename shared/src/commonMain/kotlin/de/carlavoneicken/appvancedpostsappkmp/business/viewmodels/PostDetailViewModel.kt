@@ -9,7 +9,7 @@ import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUseca
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
-import de.carlavoneicken.appvancedpostsappkmp.data.Post
+import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.koin.core.component.KoinComponent

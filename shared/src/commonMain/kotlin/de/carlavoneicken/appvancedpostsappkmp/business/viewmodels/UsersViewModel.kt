@@ -5,7 +5,7 @@ import com.rickclephas.kmp.observableviewmodel.ViewModel
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetUserUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
-import de.carlavoneicken.appvancedpostsappkmp.data.User
+import de.carlavoneicken.appvancedpostsappkmp.data.models.User
 import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.launch
 import kotlinx.coroutines.flow.StateFlow
