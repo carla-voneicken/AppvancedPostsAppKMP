@@ -1,6 +1,7 @@
 package de.carlavoneicken.appvancedpostsappkmp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,8 +13,6 @@ import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.UsersViewModel
 import de.carlavoneicken.appvancedpostsappkmp.presentation.PostDetailScreen
 import de.carlavoneicken.appvancedpostsappkmp.presentation.PostsScreen
 import de.carlavoneicken.appvancedpostsappkmp.presentation.UsersScreen
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun AppNavigation() {
@@ -25,7 +24,7 @@ fun AppNavigation() {
     ) {
         // 1. Users List
         composable("users") {
-            val viewModel: UsersViewModel = koinViewModel()
+            val viewModel: UsersViewModel = viewModel()
             UsersScreen(
                 navController = navController,
                 viewModel = viewModel
@@ -38,7 +37,7 @@ fun AppNavigation() {
             arguments = listOf(navArgument("userId") { type = NavType.IntType })
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            val viewModel: PostsViewModel = koinViewModel { parametersOf(userId) }
+            val viewModel: PostsViewModel = viewModel { PostsViewModel(userId) }
 
             PostsScreen(
                 viewModel = viewModel,
@@ -60,7 +59,7 @@ fun AppNavigation() {
             val postId = backStackEntry.arguments?.getInt("postId") ?: 0
 
             // takeIf{!isNew} -> if it's a new post, pass null instead of 0
-            val viewModel: PostDetailViewModel = koinViewModel { parametersOf(postId.takeIf { !isNew }, userId) }
+            val viewModel: PostDetailViewModel = viewModel { PostDetailViewModel(postId.takeIf { !isNew }, userId) }
 
             PostDetailScreen(
                 viewModel = viewModel,
