@@ -1,50 +1,44 @@
 package de.carlavoneicken.appvancedpostsappkmp.data.database
 
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
-import de.carlavoneicken.appvancedpostsappkmp.data.database.utils.SyncState
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
-    // UI-facing queries (hide locally-deleted items)
-    @Query("""
-        SELECT * FROM posts 
-        WHERE userRemoteId = :userId AND syncState != 'DELETING' 
-        ORDER BY updatedAt DESC
-    """)
-    fun observeByUser(userId: Long): Flow<List<PostEntity>>
-
-    @Query("SELECT * FROM posts WHERE localId = :localId")
-    fun observeByLocalId(localId: Long): Flow<PostEntity?>
-
-    // Mutations
-    @Insert
-    suspend fun insert(entity: PostEntity): Long
-
-    @Update
-    suspend fun update(entity: PostEntity)
-
-    @Query("DELETE FROM posts WHERE localId = :localId")
-    suspend fun hardDelete(localId: Long)
-
-    // Convenience “state flips”
-    @Query("UPDATE posts SET syncState = :state, updatedAt = :ts WHERE localId = :id")
-    suspend fun markState(id: Long, state: SyncState, ts: Long)
-
-    // Sync queues
-    @Query("SELECT * FROM posts WHERE syncState IN ('CREATING','UPDATING','DELETING') ORDER BY updatedAt ASC")
-    suspend fun loadPending(): List<PostEntity>
-
-    // Upsert by remoteId for pulls -> Room tries to insert the row, if there is no conflict it's inserted
-    // if there is a conflict on the primary key, Room does an update of the existing row
+    // update or insert a list of posts
     @Upsert
     suspend fun upsertAll(posts: List<PostEntity>)
 
-    // Resolve server ids after create
-    @Query("UPDATE posts SET remoteId = :remoteId, syncState = 'SYNCED', updatedAt = :ts WHERE localId = :localId")
-    suspend fun bindRemoteId(localId: Long, remoteId: Long, ts: Long)
+    // Upsert a post: updates, if the primary key already exists, or creates a new row, if it doesn't
+    @Upsert
+    suspend fun upsert(post: PostEntity)
+
+    // Update a post: updates, if the primary key already exists, but doesn't do anything, if it doesn't
+    @Update
+    suspend fun update(post: PostEntity)
+
+    // Get a post with a certain id
+    // one-time query -> "give me the value now, once"
+    @Query("SELECT * FROM posts WHERE id = :id")
+    suspend fun getById(id: Long): PostEntity?
+
+    // Observe a post with a certain id
+    // returns a Flow that emits updates automatically -> "keep me posted whenever it changes"
+    @Query("SELECT * FROM posts WHERE id = :id")
+    fun observeById(id: Long): Flow<PostEntity?>
+
+    // Observe posts by a certain user
+    @Query("SELECT * FROM posts WHERE userId = :userId ORDER BY id")
+    fun observeByUserId(userId: Long): Flow<List<PostEntity>>
+
+    // Observe all posts
+    @Query("SELECT * FROM posts ORDER BY id")
+    fun observeAll(): Flow<List<PostEntity>>
+
+    // Delete all posts
+    @Query("DELETE FROM posts")
+    suspend fun clear()
 }
