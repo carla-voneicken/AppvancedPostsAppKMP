@@ -18,7 +18,7 @@ suspend fun <T> safeCall(
         val response = block()  // run the HTTP request
 
         /* check HTTP status codes returned by the server -> the request might succeed at the network
-        level, but the server responds with 401, ,500 etc. */
+        level, but the server responds with 401, 500 etc. */
         when (response.status.value) {
             in 200..299 -> {
                 val body: T = mapper(response)
