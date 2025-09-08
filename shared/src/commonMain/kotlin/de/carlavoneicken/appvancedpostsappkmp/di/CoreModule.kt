@@ -24,10 +24,10 @@ val coreModule: Module = module {
 
     // 2. Repository: inject the httpClient automatically using get()
     single<PostsRepository> {
-        PostsRepositoryImpl(get())
+        PostsRepositoryImpl(get(), get())
     }
     single<UsersRepository> {
-        UsersRepositoryImpl(get())
+        UsersRepositoryImpl(get(), get())
     }
 
     // 3. UseCases:
