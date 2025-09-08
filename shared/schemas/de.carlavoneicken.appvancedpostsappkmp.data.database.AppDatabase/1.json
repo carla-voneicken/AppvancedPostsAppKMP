@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9c4748cd4417a012f14a3dcdea227746",
+    "identityHash": "dcc101ec78de97ba059dbd4a414a6025",
     "entities": [
       {
         "tableName": "users",
@@ -30,22 +30,17 @@
       },
       {
         "tableName": "posts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `userRemoteId` INTEGER NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, `syncState` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "localId",
-            "columnName": "localId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "remoteId",
-            "columnName": "remoteId",
-            "affinity": "INTEGER"
-          },
-          {
-            "fieldPath": "userRemoteId",
-            "columnName": "userRemoteId",
+            "fieldPath": "userId",
+            "columnName": "userId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -60,51 +55,19 @@
             "columnName": "body",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "syncState",
-            "columnName": "syncState",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "updatedAt",
-            "columnName": "updatedAt",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "localId"
+            "id"
           ]
-        },
-        "indices": [
-          {
-            "name": "index_posts_remoteId",
-            "unique": true,
-            "columnNames": [
-              "remoteId"
-            ],
-            "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_posts_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
-          },
-          {
-            "name": "index_posts_userRemoteId",
-            "unique": false,
-            "columnNames": [
-              "userRemoteId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_posts_userRemoteId` ON `${TABLE_NAME}` (`userRemoteId`)"
-          }
-        ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9c4748cd4417a012f14a3dcdea227746')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dcc101ec78de97ba059dbd4a414a6025')"
     ]
   }
 }
