@@ -6,9 +6,9 @@ import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
 
 interface PostsRepository {
 
-    suspend fun getPostsByUserId(userId: Int): NetworkResult<List<Post>, NetworkError>
+    suspend fun getPostsByUserId(userId: Long): NetworkResult<List<Post>, NetworkError>
 
-    suspend fun getPostById(id: Int): NetworkResult<Post, NetworkError>
+    suspend fun getPostById(id: Long): NetworkResult<Post, NetworkError>
 
     suspend fun createPost(post: Post): NetworkResult<Post, NetworkError>
 

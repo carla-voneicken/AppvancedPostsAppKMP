@@ -17,7 +17,7 @@ import io.ktor.http.contentType
 class PostsRepositoryImpl(private val httpClient: HttpClient): PostsRepository {
     private val baseUrl = "https://jsonplaceholder.typicode.com"
 
-    override suspend fun getPostsByUserId(userId: Int): NetworkResult<List<Post>, NetworkError> = safeCall(
+    override suspend fun getPostsByUserId(userId: Long): NetworkResult<List<Post>, NetworkError> = safeCall(
         // block: the actual HTTP request or operation that could fail
         block = {
             httpClient.get("$baseUrl/posts") {
@@ -28,7 +28,7 @@ class PostsRepositoryImpl(private val httpClient: HttpClient): PostsRepository {
         mapper = { it.body() }
     )
 
-    override suspend fun getPostById(id: Int): NetworkResult<Post, NetworkError> = safeCall(
+    override suspend fun getPostById(id: Long): NetworkResult<Post, NetworkError> = safeCall(
         block = {
             httpClient.get("$baseUrl/posts/$id")
         },

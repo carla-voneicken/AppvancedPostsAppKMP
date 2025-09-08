@@ -16,15 +16,15 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostDetailViewModel(
-    private val postId: Int?, private val userId: Int
+    private val postId: Long?, private val userId: Long
 ): ViewModel(), KoinComponent {
     private val getPostByIdUsecase: GetPostByIdUsecase by inject()
     private val createPostUsecase: CreatePostUsecase by inject()
     private val updatePostUsecase: UpdatePostUsecase by inject()
 
     data class UiState(
-        val postId: Int? = null,
-        val userId: Int,
+        val postId: Long? = null,
+        val userId: Long,
         val post: Post? = null,
         val title: String = "",
         val body: String = "",

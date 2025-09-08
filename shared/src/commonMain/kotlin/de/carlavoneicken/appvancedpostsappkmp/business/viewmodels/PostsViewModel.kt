@@ -14,14 +14,14 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostsViewModel(
-    private val userId: Int
+    private val userId: Long
 ): ViewModel(), KoinComponent {
     // inject needed Usecase
     private val getPostsByUserIdUsecase: GetPostByUserIdUsecase by inject()
 
     // UI State data class
     data class UiState(
-        val userId: Int,
+        val userId: Long,
         val posts: List<Post> = emptyList(),
         val isLoading: Boolean = true,
         val errorMessage: String? = null
