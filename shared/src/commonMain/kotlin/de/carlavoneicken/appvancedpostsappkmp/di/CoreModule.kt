@@ -50,14 +50,14 @@ val coreModule: Module = module {
         UpdatePostUsecase(get())
     }
 
-    // 4. ViewModels
-    factory<UsersViewModel> {
-        UsersViewModel()
-    }
-    factory<PostsViewModel> {
-        (userId: Int) -> PostsViewModel(userId)
-    }
-    factory<PostDetailViewModel> {
-        (postId: Int?, userId: Int) -> PostDetailViewModel(postId, userId)
-    }
+    // 4. ViewModels: not needed because we don't inject the ViewModels, we just create them in the AppNavigation (Android) / Views (iOS)
+//    factory<UsersViewModel> {
+//        UsersViewModel()
+//    }
+//    factory<PostsViewModel> {
+//        (userId: Int) -> PostsViewModel(userId)
+//    }
+//    factory<PostDetailViewModel> {
+//        (postId: Int?, userId: Int) -> PostDetailViewModel(postId, userId)
+//    }
 }
