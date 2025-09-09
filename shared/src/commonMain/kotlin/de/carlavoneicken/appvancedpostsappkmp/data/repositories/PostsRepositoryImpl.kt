@@ -35,7 +35,7 @@ class PostsRepositoryImpl(
         postDao.observeByUserId(userId)
             .map { entities -> entities.map { it.toDomain() } }
 
-    override fun observePost(id: Long): Flow<Post?> =
+    override fun observePostById(id: Long): Flow<Post?> =
         postDao.observeById(id)
             .map { entity -> entity?.toDomain()  }
 
@@ -68,7 +68,7 @@ class PostsRepositoryImpl(
             }
         )
 
-    override suspend fun refreshPost(id: Long): NetworkResult<Unit, NetworkError> =
+    override suspend fun refreshPostById(id: Long): NetworkResult<Unit, NetworkError> =
         safeCall(
             block = {
                 httpClient.get("$baseUrl/posts/$id")
