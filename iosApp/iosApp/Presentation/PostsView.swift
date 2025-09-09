@@ -64,8 +64,8 @@ struct PostsView: View {
     private func createPostDetailView(for post: IdentifiablePost) -> some View {
         PostDetailView(
             viewmodel: PostDetailViewModel(
-                postId: KotlinInt(value: Int32(post.id)),  // Convert Swift Int to KotlinInt
-                userId: Int32(post.userId)
+                postId: KotlinLong(value: Int64(post.id)),  // Convert Swift Int to KotlinInt
+                userId: Int64(post.userId)
             )
         )
     }
@@ -75,7 +75,7 @@ struct PostsView: View {
         PostDetailView(
             viewmodel: PostDetailViewModel(
                 postId: nil,
-                userId: Int32(viewmodel.uiState.userId)
+                userId: Int64(viewmodel.uiState.userId)
             )
         )
     }
