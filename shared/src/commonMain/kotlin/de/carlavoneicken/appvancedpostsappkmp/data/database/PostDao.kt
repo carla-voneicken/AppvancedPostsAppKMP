@@ -31,7 +31,7 @@ interface PostDao {
     fun observeById(id: Long): Flow<PostEntity?>
 
     // Observe posts by a certain user
-    @Query("SELECT * FROM posts WHERE userId = :userId ORDER BY id")
+    @Query("SELECT * FROM posts WHERE userId = :userId ORDER BY id DESC")
     fun observeByUserId(userId: Long): Flow<List<PostEntity>>
 
     // Observe all posts
