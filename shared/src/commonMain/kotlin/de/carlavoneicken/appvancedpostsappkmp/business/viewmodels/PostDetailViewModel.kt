@@ -5,20 +5,25 @@ import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.CreatePostUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObservePostByIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshPostByIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
 import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostDetailViewModel(
-    private val postId: Long?, private val userId: Long
+    private val postId: Long?,
+    private val userId: Long
 ): ViewModel(), KoinComponent {
-    private val getPostByIdUsecase: GetPostByIdUsecase by inject()
+    private val observePostByIdUsecase: ObservePostByIdUsecase by inject()
+    private val refreshPostByIdUsecase: RefreshPostByIdUsecase by inject()
     private val createPostUsecase: CreatePostUsecase by inject()
     private val updatePostUsecase: UpdatePostUsecase by inject()
 
@@ -41,22 +46,26 @@ class PostDetailViewModel(
     init {
         postId?.let { id ->
             viewModelScope.launch {
-                when (val result = getPostByIdUsecase(id)) {
-                    is NetworkResult.Success ->  {
-                        val post = result.data
-                        _uiState.value = UiState(
-                            post = post,
-                            userId = userId,
-                            title = post.title,
-                            body = post.body
-                        )
-                    }
-                    is NetworkResult.Failure -> {
-                        _uiState.value = _uiState.value.copy(
-                            errorMessage = mapNetworkErrorToMessage(result.error),
+
+                // Refresh data first to ensure we have the latest
+                val refreshResult = refreshPostByIdUsecase(postId)
+                if (refreshResult is NetworkResult.Failure) {
+                    _uiState.update {
+                        it.copy(
+                            errorMessage = mapNetworkErrorToMessage(refreshResult.error),
                             showError = true
                         )
                     }
+                }
+                // .first() only gets a 'snapshot' and doesn't observe the Flow over a longer period
+                val post = observePostByIdUsecase(postId).first()
+                _uiState.update {
+                    it.copy(
+                        post = post,
+                        userId = post?.userId ?: userId,
+                        title = post?.title.orEmpty(),
+                        body = post?.body.orEmpty()
+                    )
                 }
             }
         }

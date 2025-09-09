@@ -19,14 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import de.carlavoneicken.appvancedpostsappkmp.business.viewmodels.PostsViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostsScreen(
-    viewModel: PostsViewModel = koinViewModel(),
+    viewModel: PostsViewModel = viewModel(),
     navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
