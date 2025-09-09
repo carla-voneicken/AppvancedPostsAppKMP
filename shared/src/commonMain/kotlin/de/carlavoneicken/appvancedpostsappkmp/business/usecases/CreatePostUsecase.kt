@@ -7,7 +7,7 @@ import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 
 class CreatePostUsecase(private val postsRepository: PostsRepository) {
 
-    suspend operator fun invoke(post: Post): NetworkResult<Post, NetworkError> {
+    suspend operator fun invoke(post: Post): NetworkResult<Unit, NetworkError> {
         return postsRepository.createPost(post)
     }
 
