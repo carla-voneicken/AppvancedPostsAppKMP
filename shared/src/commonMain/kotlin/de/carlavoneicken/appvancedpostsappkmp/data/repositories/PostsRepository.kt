@@ -9,12 +9,12 @@ interface PostsRepository {
     // UI data from database
     fun observeAllPosts(): Flow<List<Post>>
     fun observePostsByUserId(userId: Long): Flow<List<Post>>
-    fun observePost(id: Long): Flow<Post?>
+    fun observePostById(id: Long): Flow<Post?>
 
     // Refresh data via HttpRequest
     suspend fun refreshAllPosts(): NetworkResult<Unit, NetworkError>
     suspend fun refreshPostsByUserId(userId: Long): NetworkResult<Unit, NetworkError>
-    suspend fun refreshPost(id: Long): NetworkResult<Unit, NetworkError>
+    suspend fun refreshPostById(id: Long): NetworkResult<Unit, NetworkError>
 
     // Write data via HttpRequest
     suspend fun createPost(post: Post): NetworkResult<Unit, NetworkError>

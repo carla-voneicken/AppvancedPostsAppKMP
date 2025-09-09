@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface UsersRepository {
     fun observeUsers(): Flow<List<User>>
 
-    suspend fun getUsers(): NetworkResult<Unit, NetworkError>
+    suspend fun refreshUsers(): NetworkResult<Unit, NetworkError>
 }

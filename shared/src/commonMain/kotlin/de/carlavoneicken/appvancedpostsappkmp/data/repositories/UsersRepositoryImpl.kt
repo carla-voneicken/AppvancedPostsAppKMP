@@ -25,7 +25,7 @@ class UsersRepositoryImpl(
             .map { entities -> entities.map { it.toDomain() } }
 
 
-    override suspend fun getUsers(): NetworkResult<Unit, NetworkError> =
+    override suspend fun refreshUsers(): NetworkResult<Unit, NetworkError> =
         safeCall(
             block = {
                 httpClient.get("$baseUrl/users")
