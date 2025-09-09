@@ -34,7 +34,7 @@ fun AppNavigation() {
         // 2. Posts List
         composable(
             route = "posts/{userId}",
-            arguments = listOf(navArgument("userId") { type = NavType.IntType })
+            arguments = listOf(navArgument("userId") { type = NavType.LongType })
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getLong("userId") ?: 0
             val viewModel: PostsViewModel = viewModel { PostsViewModel(userId) }
@@ -50,8 +50,8 @@ fun AppNavigation() {
             route = "post_detail/{isNew}/{userId}/{postId}",
             arguments = listOf(
                 navArgument("isNew") { type = NavType.BoolType },
-                navArgument("userId") { type = NavType.IntType },
-                navArgument("postId") { type = NavType.IntType }
+                navArgument("userId") { type = NavType.LongType },
+                navArgument("postId") { type = NavType.LongType }
             )
         ) { backStackEntry ->
             val isNew = backStackEntry.arguments?.getBoolean("isNew") ?: false

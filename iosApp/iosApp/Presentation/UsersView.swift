@@ -26,7 +26,7 @@ struct UsersView: View {
                     ) { user in
                         NavigationLink(destination: PostsView(
                             viewmodel: PostsViewModel(
-                                userId: Int32(user.id)
+                                userId: Int64(user.id)
                             )
                         )){
                             VStack(alignment: .leading) {
