@@ -4,7 +4,8 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
-import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByUserIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObservePostsByUserIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshPostsByUserIdUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.NetworkResult
 import de.carlavoneicken.appvancedpostsappkmp.business.utils.mapNetworkErrorToMessage
 import de.carlavoneicken.appvancedpostsappkmp.data.models.Post
@@ -17,7 +18,8 @@ class PostsViewModel(
     private val userId: Long
 ): ViewModel(), KoinComponent {
     // inject needed Usecase
-    private val getPostsByUserIdUsecase: GetPostByUserIdUsecase by inject()
+    private val observePostsByUserIdUsecase: ObservePostsByUserIdUsecase by inject()
+    private val refreshPostsByUserIdUsecase: RefreshPostsByUserIdUsecase by inject()
 
     // UI State data class
     data class UiState(
@@ -45,23 +47,28 @@ class PostsViewModel(
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
-        loadPosts()
+        viewModelScope.launch {
+            observePostsByUserIdUsecase(userId).collect { posts ->
+                updateState { copy(posts = posts)}
+            }
+        }
+        onRefresh()
     }
 
     private fun updateState(update: UiState.() -> UiState) {
         _uiState.value = _uiState.value.update()
     }
 
-    fun loadPosts() {
+    fun onRefresh() {
         viewModelScope.launch {
             // copy() creates a new instance of the data class with some properties changed
             // copy(isLoading = true) creates a new instance where the isLoading property is changed, but not the others
             updateState { copy(isLoading = true, errorMessage = null) }
 
-            when (val result = getPostsByUserIdUsecase(userId)) {
-                // when httpRequest was successful -> save the data in the uiState
+            when (val result = refreshPostsByUserIdUsecase(userId)) {
+                // when httpRequest was successful -> just change isLoading to false
                 is NetworkResult.Success -> updateState {
-                    copy(posts = result.data, isLoading = false)
+                    copy(isLoading = false)
                 }
                 // when httpRequest was not successful -> display errorMessage
                 is NetworkResult.Failure -> updateState {
@@ -70,6 +77,4 @@ class PostsViewModel(
             }
         }
     }
-
-
 }
