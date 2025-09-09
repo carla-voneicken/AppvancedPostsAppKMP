@@ -1,9 +1,14 @@
 package de.carlavoneicken.appvancedpostsappkmp.di
 
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.CreatePostUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByIdUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetPostByUserIdUsecase
-import de.carlavoneicken.appvancedpostsappkmp.business.usecases.GetUserUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObserveAllPostsUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObservePostByIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObservePostsByUserIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.ObserveUsersUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshAllPostsUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshPostByIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshPostsByUserIdUsecase
+import de.carlavoneicken.appvancedpostsappkmp.business.usecases.RefreshUsersUsecase
 import de.carlavoneicken.appvancedpostsappkmp.business.usecases.UpdatePostUsecase
 import de.carlavoneicken.appvancedpostsappkmp.data.database.AppDatabase
 import de.carlavoneicken.appvancedpostsappkmp.data.database.PostDao
@@ -31,20 +36,38 @@ val coreModule: Module = module {
     }
 
     // 3. UseCases:
+    single<ObserveAllPostsUsecase> {
+        ObserveAllPostsUsecase(get())
+    }
+    single<ObservePostsByUserIdUsecase> {
+        ObservePostsByUserIdUsecase(get())
+    }
+    single<ObservePostByIdUsecase> {
+        ObservePostByIdUsecase(get())
+    }
+
+    single<RefreshAllPostsUsecase> {
+        RefreshAllPostsUsecase(get())
+    }
+    single<RefreshPostsByUserIdUsecase> {
+        RefreshPostsByUserIdUsecase(get())
+    }
+    single<RefreshPostByIdUsecase> {
+        RefreshPostByIdUsecase(get())
+    }
+
     single<CreatePostUsecase> {
         CreatePostUsecase(get())
     }
-    single<GetPostByIdUsecase> {
-        GetPostByIdUsecase(get())
-    }
-    single<GetPostByUserIdUsecase> {
-        GetPostByUserIdUsecase(get())
-    }
-    single<GetUserUsecase> {
-        GetUserUsecase(get())
-    }
     single<UpdatePostUsecase> {
         UpdatePostUsecase(get())
+    }
+
+    single<ObserveUsersUsecase> {
+        ObserveUsersUsecase(get())
+    }
+    single<RefreshUsersUsecase> {
+        RefreshUsersUsecase(get())
     }
 
     // 4. ViewModels: not needed because we don't inject the ViewModels, we just create them in the AppNavigation (Android) / Views (iOS)
