@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class ObservePostsByUserIdUsecase(private val postsRepository: PostsRepository) {
 
-    suspend operator fun invoke(userId: Long): Flow<List<Post>> {
+    operator fun invoke(userId: Long): Flow<List<Post>> {
         return postsRepository.observePostsByUserId(userId)
     }
 
