@@ -79,6 +79,7 @@ class PostDetailViewModel(
         _uiState.value = _uiState.value.copy(body = newBody)
     }
 
+    // 'suspend' needed here to make it work with Swift
     suspend fun savePost() {
         viewModelScope.launch {
             val currentState = _uiState.value

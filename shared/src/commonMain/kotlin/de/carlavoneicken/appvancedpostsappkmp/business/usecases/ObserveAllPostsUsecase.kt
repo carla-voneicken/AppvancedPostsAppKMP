@@ -5,7 +5,7 @@ import de.carlavoneicken.appvancedpostsappkmp.data.repositories.PostsRepository
 import kotlinx.coroutines.flow.Flow
 
 class ObserveAllPostsUsecase(private val postsRepository: PostsRepository) {
-    suspend operator fun invoke(): Flow<List<Post>> {
+    operator fun invoke(): Flow<List<Post>> {
         return postsRepository.observeAllPosts()
     }
 }
