@@ -53,7 +53,7 @@ fun PostDetailScreen(
     LaunchedEffect(uiState.isSaved) {
         if (uiState.isSaved) {
             showSuccessText = true
-            delay(1500)
+            delay(500)
             navController.popBackStack()
         }
     }
@@ -125,9 +125,9 @@ fun PostDetailScreen(
             Spacer(modifier = Modifier.weight(1f))
             if (showSuccessText) {
                 Text(
-                    "🥳 Post gespeichert 🥳",
+                    "Post gespeichert",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = Color.Green,
+                    color = Color(0xFF863BF6),
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }

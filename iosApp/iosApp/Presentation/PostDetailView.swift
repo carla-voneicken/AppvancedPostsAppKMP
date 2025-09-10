@@ -60,9 +60,9 @@ struct PostDetailView: View {
             
             Spacer()
             if showSuccessText {
-                Text("🥳 Post gespeichert 🥳")
+                Text("Post gespeichert")
                     .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.primary)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
         }
@@ -71,7 +71,7 @@ struct PostDetailView: View {
         .onChange(of: viewmodel.uiState.isSaved) {
             if viewmodel.uiState.isSaved {
                 showSuccessText = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     dismiss()
                 }
             }
