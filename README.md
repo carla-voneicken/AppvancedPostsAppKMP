@@ -1,19 +1,52 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# AppvancedPostsAppKMP
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+A Kotlin Multiplatform (KMP) sample app that displays Users and Posts, sharing business logic, networking, and persistence across Android and iOS. 
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+- Android UI: Jetpack Compose
+- iOS UI: SwiftUI (using the shared KMP layer via KMP-ObservableViewModel)
+- Shared: Ktor HTTP client, Kotlinx Serialization, Coroutines, Koin DI, Room (Multiplatform), SQLDelight bundled SQLite
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you can add code to the platform-specific folders here too.
+The project fetches demo data from jsonplaceholder.typicode.com and persists it locally via Room. Dependency Injection is provided by Koin. Networking uses Ktor with JSON serialization.
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Stack / Tooling
+- Languages: Kotlin (KMP), Swift (iOS)
+- UI: Jetpack Compose (Android), SwiftUI (iOS)
+- DI: Koin
+- Networking: Ktor Client (core, content-negotiation, logging, kotlinx-json)
+- Persistence: Room (Multiplatform), SQLite bundled
+- Serialization: kotlinx.serialization
+- Concurrency: kotlinx.coroutines
+- Build system: Gradle (Kotlin DSL) with Gradle Wrapper
+- Kotlin: 2.2.10 (see gradle/libs.versions.toml)
+- Android Gradle Plugin (AGP): 8.12.3 (see gradle/libs.versions.toml)
+
+
+## Requirements
+- JDK 11 (project compiles with JVM target 11)
+- Android Studio (Electric Eel or newer recommended) with Android SDK:
+  - compileSdk: 36
+  - minSdk: 24
+  - targetSdk: 36
+- Xcode for iOS development
+  - TODO: Confirm the exact minimum Xcode and iOS deployment target versions
+- Kotlin/Gradle via the provided Gradle Wrapper (./gradlew)
+
+
+## Project Structure
+This is a Kotlin Multiplatform project targeting Android and iOS.
+
+- /composeApp
+  - Android application module (Jetpack Compose UI)
+  - Entry point: MainActivity (composeApp/src/androidMain/.../MainActivity.kt)
+  - Application class initializes Koin: App (composeApp/src/androidMain/.../App.kt)
+- /shared
+  - Shared KMP module (business logic, networking, data, DI)
+  - Important source set: shared/src/commonMain/kotlin
+  - Ktor HttpClient configuration: shared/src/commonMain/.../network/HttpClientProvider.kt
+  - Repositories (e.g., PostsRepositoryImpl) use https://jsonplaceholder.typicode.com
+  - Room setup, DAOs, and entities in shared/src/commonMain/.../data/database
+- /iosApp
+  - Native iOS app (SwiftUI)
+  - Entry point: iosApp.swift (@main)
+  - Initializes Koin via KoinHelperKt.doInitKoinIos()
