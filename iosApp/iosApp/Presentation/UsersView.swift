@@ -21,9 +21,7 @@ struct UsersView: View {
         } else {
             NavigationStack {
                 VStack {
-                    List(viewmodel.uiState.users.map {
-                        IdentifiableUser(id: Int($0.id), username: $0.username) }
-                    ) { user in
+                    List(viewmodel.uiState.users, id: \.id) { user in
                         NavigationLink(destination: PostsView(
                             viewmodel: PostsViewModel(
                                 userId: Int64(user.id)
