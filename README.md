@@ -25,7 +25,7 @@ This project demonstrates key concepts such as:
 Data provided by [JSON Placeholder API](https://jsonplaceholder.typicode.com/)
 
 ### 📸 Preview
-![App Demo](./demo.gif)
+<img src="./demo.gif" width="350">
 
 ### 👩‍💻 Author
 
